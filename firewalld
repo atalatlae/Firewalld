@@ -1,0 +1,54 @@
+#!/bin/bash
+
+IPT="/sbin/iptables";
+CONF="/etc/firewalld.conf"
+PROG="firewalld"
+
+start() {
+	echo "Starting Firewall"
+
+	$IPT -P INPUT DROP
+	$IPT -P OUTPUT ACCEPT
+	$IPT -P FORWARD ACCEPT
+
+	# put the rules here
+	. $CONF
+}
+
+
+stop () {
+	echo "Stoping Firewall"
+
+	$IPT -P INPUT ACCEPT
+	$IPT -P OUTPUT ACCEPT
+	$IPT -P FORWARD ACCEPT
+
+	# clear all rules
+	$IPT -F
+}
+
+status() {
+	$IPT -L -n
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	status)
+		status
+		;;
+	restart)
+		stop
+		sleep 2
+		start
+		;;
+	stop)
+		stop
+		;;
+	*)
+	echo $"Usage: $PROG {start|stop|restart|status}"
+esac
