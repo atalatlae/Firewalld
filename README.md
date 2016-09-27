@@ -28,5 +28,5 @@ Bash script to manage iptables rules
 
 ## Stop the service
 ```
-    $ /etc/init.d/firewalld start
+    $ /etc/init.d/firewalld stop
 ```
